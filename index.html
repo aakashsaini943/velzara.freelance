@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Monroe — Creative Director & Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">velzara<span></span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#testimonials">Clients</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Talk</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Available for Projects · 2026</div>
+    <h1 class="hero-headline">
+      Crafting brands<br>
+      <span class="line2">that <em>resonate</em></span>
+    </h1>
+    <p class="hero-sub">Creative director & brand strategist helping ambitious companies build identities that move people and drive growth.</p>
+    <div class="hero-actions">
+      <a href="#portfolio" class="btn-primary"><span>View My Work</span></a>
+      <a href="#contact" class="btn-ghost">
+        <span class="arrow"></span>
+        Start a Project
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">94+</div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">8yr</div>
+      <div class="stat-label">Experience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">32</div>
+      <div class="stat-label">Happy Clients</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <div class="scroll-text">Scroll</div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-tag">What I Do</div>
+  <h2 class="section-heading reveal">
+    Expertise that<br><em>elevates</em> your vision
+  </h2>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <span class="service-icon">◈</span>
+      <div class="service-name">Brand Identity</div>
+      <p class="service-desc">Building complete visual languages — from logo systems and color theory to typography and brand guidelines that endure.</p>
+      <div class="service-tags">
+        <span class="service-tag">Logo Design</span>
+        <span class="service-tag">Brand Systems</span>
+        <span class="service-tag">Style Guides</span>
+      </div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <span class="service-icon">⬡</span>
+      <div class="service-name">UI/UX Design</div>
+      <p class="service-desc">Crafting digital experiences with precision — interfaces that are both breathtaking and intuitive, always conversion-focused.</p>
+      <div class="service-tags">
+        <span class="service-tag">Figma</span>
+        <span class="service-tag">Prototyping</span>
+        <span class="service-tag">Design Systems</span>
+      </div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <span class="service-icon">⬢</span>
+      <div class="service-name">Creative Direction</div>
+      <p class="service-desc">Steering campaigns, photo shoots, and visual narratives — shaping the story your brand tells with intentionality.</p>
+      <div class="service-tags">
+        <span class="service-tag">Art Direction</span>
+        <span class="service-tag">Campaign</span>
+        <span class="service-tag">Photography</span>
+      </div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <span class="service-icon">◉</span>
+      <div class="service-name">Web Design</div>
+      <p class="service-desc">High-performance, aesthetically distinctive websites that balance design integrity with measurable business outcomes.</p>
+      <div class="service-tags">
+        <span class="service-tag">Webflow</span>
+        <span class="service-tag">Framer</span>
+        <span class="service-tag">React</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-intro">
+    <div>
+      <div class="section-tag">Selected Work</div>
+      <h2 class="section-heading reveal">
+        Projects that<br><em>speak</em> for themselves
+      </h2>
+    </div>
+    <div class="portfolio-filter reveal">
+      <button class="filter-btn active" onclick="setFilter(this,'all')">All</button>
+      <button class="filter-btn" onclick="setFilter(this,'brand')">Brand</button>
+      <button class="filter-btn" onclick="setFilter(this,'web')">Web</button>
+      <button class="filter-btn" onclick="setFilter(this,'ux')">UX</button>
+    </div>
+  </div>
+
+  <div class="portfolio-masonry">
+    <div class="portfolio-item reveal">
+      <div class="portfolio-placeholder p1">
+        <span class="p-icon">◈</span>
+        <span class="p-category">Brand Identity</span>
+      </div>
+      <div class="portfolio-overlay">
+        <a href="#" class="overlay-link">↗</a>
+        <div class="overlay-cat">Brand Identity</div>
+        <div class="overlay-title">Aurore Studio</div>
+        <div class="overlay-year">2025</div>
+      </div>
+    </div>
+    <div class="portfolio-item reveal">
+      <div class="portfolio-placeholder p2">
+        <span class="p-icon">⬡</span>
+        <span class="p-category">UI/UX Design</span>
+      </div>
+      <div class="portfolio-overlay">
+        <a href="#" class="overlay-link">↗</a>
+        <div class="overlay-cat">UI/UX Design</div>
+        <div class="overlay-title">Verdant Finance</div>
+        <div class="overlay-year">2025</div>
+      </div>
+    </div>
+    <div class="portfolio-item reveal">
+      <div class="portfolio-placeholder p3">
+        <span class="p-icon">⬢</span>
+        <span class="p-category">Creative Direction</span>
+      </div>
+      <div class="portfolio-overlay">
+        <a href="#" class="overlay-link">↗</a>
+        <div class="overlay-cat">Creative Direction</div>
+        <div class="overlay-title">Nomad Collection</div>
+        <div class="overlay-year">2025</div>
+      </div>
+    </div>
+    <div class="portfolio-item reveal">
+      <div class="portfolio-placeholder p4">
+        <span class="p-icon">◉</span>
+        <span class="p-category">Web Design</span>
+      </div>
+      <div class="portfolio-overlay">
+        <a href="#" class="overlay-link">↗</a>
+        <div class="overlay-cat">Web Design</div>
+        <div class="overlay-title">Opal Architecture</div>
+        <div class="overlay-year">2024</div>
+      </div>
+    </div>
+    <div class="portfolio-item reveal">
+      <div class="portfolio-placeholder p5">
+        <span class="p-icon">◈</span>
+        <span class="p-category">Brand Identity</span>
+      </div>
+      <div class="portfolio-overlay">
+        <a href="#" class="overlay-link">↗</a>
+        <div class="overlay-cat">Brand Identity</div>
+        <div class="overlay-title">Solstice Spirits</div>
+        <div class="overlay-year">2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="testimonials-inner">
+    <div class="testimonials-left">
+      <div class="section-tag">Client Stories</div>
+      <h2 class="section-heading reveal">
+        Words from<br>those who <em>know</em>
+      </h2>
+      <div class="testi-brands reveal">
+        <div class="brands-label">Trusted by</div>
+        <div class="brands-row">
+          <span class="brand">Lumen</span>
+          <span class="brand">Orvea</span>
+          <span class="brand">Noctis</span>
+          <span class="brand">Solara</span>
+          <span class="brand">Arcane</span>
+        </div>
+      </div>
+    </div>
+    <div class="testi-scroll">
+      <div class="testi-card active reveal">
+        <p class="testi-quote">Alex transformed our brand entirely. The new identity increased our premium perception significantly — clients now ask us how we afford such a sophisticated look.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">🌿</div>
+          <div>
+            <div class="testi-name">Camille Rousseau</div>
+            <div class="testi-role">Founder · Aurore Studio</div>
+          </div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <p class="testi-quote">The web redesign was delivered ahead of schedule and exceeded every expectation. Conversion rates jumped 40% in the first month. Exceptional craft, exceptional process.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">💼</div>
+          <div>
+            <div class="testi-name">Marcus Chen</div>
+            <div class="testi-role">CEO · Verdant Finance</div>
+          </div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <p class="testi-quote">Rarely do you find a creative who understands business as deeply as the aesthetics. Alex bridges that gap brilliantly — strategic thinking wrapped in beautiful execution.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">🏛</div>
+          <div>
+            <div class="testi-name">Sophia Andersson</div>
+            <div class="testi-role">Director · Opal Architecture</div>
+          </div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <p class="testi-quote">Working with Alex was one of the best investments we made in our early stage. The brand identity became the foundation we built everything on — investors noticed immediately.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">✦</div>
+          <div>
+            <div class="testi-name">James Okafor</div>
+            <div class="testi-role">Co-founder · Noctis Labs</div>
+          </div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pricing-header">
+    <div>
+      <div class="section-tag">Investment</div>
+      <h2 class="section-heading reveal">
+        Transparent<br><em>pricing</em>
+      </h2>
+    </div>
+    <p class="reveal" style="color:rgba(245,240,232,0.45);font-size:0.95rem;line-height:1.8;align-self:end;">Every project is unique. These packages serve as a starting point — custom scopes always available upon inquiry.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal">
+      <div class="pricing-plan">Starter</div>
+      <div class="pricing-price"><sup>$</sup>1,800</div>
+      <div class="pricing-period">Per project</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Brand Identity System</li>
+        <li>Logo Design (3 concepts)</li>
+        <li>Color & Typography</li>
+        <li>Brand Guidelines PDF</li>
+        <li>2 Revision Rounds</li>
+        <li class="muted">UI/UX Design</li>
+        <li class="muted">Web Development</li>
+        <li class="muted">Priority Support</li>
+      </ul>
+      <a href="#contact" class="btn-pricing">Get Started</a>
+    </div>
+
+    <div class="pricing-card featured reveal">
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-plan">Studio</div>
+      <div class="pricing-price"><sup>$</sup>4,500</div>
+      <div class="pricing-period">Per project</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Full Brand Identity</li>
+        <li>Logo + Full Asset Suite</li>
+        <li>Color, Type & Motion</li>
+        <li>Comprehensive Guidelines</li>
+        <li>UI/UX Design (5 screens)</li>
+        <li>Webflow / Framer Site</li>
+        <li>Unlimited Revisions</li>
+        <li class="muted">Dedicated Slack Channel</li>
+      </ul>
+      <a href="#contact" class="btn-pricing featured-btn">Get Started</a>
+    </div>
+
+    <div class="pricing-card reveal">
+      <div class="pricing-plan">Enterprise</div>
+      <div class="pricing-price">Custom</div>
+      <div class="pricing-period">Tailored engagement</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Full Brand Architecture</li>
+        <li>End-to-end Creative Direction</li>
+        <li>Multi-platform Design System</li>
+        <li>Website + App UI</li>
+        <li>Campaign & Art Direction</li>
+        <li>Ongoing Retainer Option</li>
+        <li>Priority Turnaround</li>
+        <li>Dedicated Slack Channel</li>
+      </ul>
+      <a href="#contact" class="btn-pricing">Let's Talk</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-bg"></div>
+  <div class="cta-border"></div>
+  <div class="cta-content">
+    <span class="cta-eyebrow">Open for Work · Available Q2 2026</span>
+    <h2 class="cta-heading reveal">
+      Ready to build<br>something <em>remarkable?</em>
+    </h2>
+    <p class="cta-sub reveal">Tell me about your vision. I'll tell you how we can make it real.</p>
+    <div class="cta-actions reveal">
+      <div class="cta-email">
+        <input type="email" placeholder="your@email.com">
+        <button>Let's Talk</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Alex<span>.</span>Monroe</div>
+  <div class="footer-copy">© 2026 Alex Monroe. All rights reserved.</div>
+  <div class="footer-socials">
+    <a href="#" class="social-link">Instagram</a>
+    <a href="#" class="social-link">Youtube</a>
+    <a href="#" class="social-link">LinkedIn</a>
+    <a href="#" class="social-link">Twitter</a>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
