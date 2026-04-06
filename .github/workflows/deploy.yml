@@ -14,12 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Upload static files
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./   # root folder (HTML, CSS, JS)
+      - name: Build docker image 
+        run: docker build -tmy-app .
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-
+      - name: Run Container ( test )  
+        run: docker run -d -p 8080:80 my-app
+       
 
