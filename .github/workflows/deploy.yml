@@ -26,9 +26,9 @@ jobs:
       - name: Configure JFrog
         run: |
           ./jfrog config add my-server \
-          --url=${{ https://trialuy8zrn.jfrog.io/ }} \
-          --user=${{ support@azureescape.in }} \
-          --apikey=${{ cmVmdGtuOjAxOjE4MDcwNzk0MTA6bEtVZzl2ek5KNEhXb2hwWGV4ZGFpRmtwZ1NW }} \
+          --url=${{ secrets.JFROG_URL }} \
+          --user=${{ secrets.JFROG_USER }} \
+          --apikey=${{ secrets.JFROG_API_KEY }} \
           --interactive=false
 
       # 5️⃣ Upload Artifact to JFrog
@@ -43,8 +43,8 @@ jobs:
       # 7️⃣ Login to JFrog Docker Registry
       - name: Docker Login
         run: |
-          echo ${{ cmVmdGtuOjAxOjE4MDcwNzk0MTA6bEtVZzl2ek5KNEhXb2hwWGV4ZGFpRmtwZ1NW }} | docker login   https://trialuy8zrn.jfrog.io \
-          -u ${{ support@azureescape.in }} --password-stdin
+          echo ${{ secrets.JFROG_API_KEY }} | docker login your-domain.jfrog.io \
+          -u ${{ secrets.JFROG_USER }} --password-stdin
 
       # 8️⃣ Tag Docker Image
       - name: Tag Image
@@ -54,4 +54,4 @@ jobs:
       # 9️⃣ Push Docker Image
       - name: Push Image
         run: |
-          docker push  https://trialuy8zrn.jfrog.io/docker-repo/myapp:latest
+          docker push https://trialuy8zrn.jfrog.io/docker-repo/myapp:latest
