@@ -43,7 +43,7 @@ jobs:
       # 7️⃣ Login to JFrog Docker Registry
       - name: Docker Login
         run: |
-          echo ${{ secrets.JFROG_TOKEN }} | docker login your-domain.jfrog.io \
+          echo ${{ secrets.JFROG_TOKEN }} | docker login https://trialuy8zrn.jfrog.io \
           -u ${{ secrets.JFROG_USERNAME }} --password-stdin
 
       # 8️⃣ Tag Docker Image
