@@ -49,7 +49,7 @@ jobs:
       # 8️⃣ Tag Docker Image
       - name: Tag Image
         run: |
-          docker tag myapp https://trialuy8zrn.jfrog.io/docker-repo/myapp:latest
+          docker tag myapp trialuy8zrn.jfrog.io/docker-repo/myapp:latest
 
       # 9️⃣ Push Docker Image
       - name: Push Image
