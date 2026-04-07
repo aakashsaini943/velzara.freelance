@@ -27,8 +27,8 @@ jobs:
         run: |
           ./jfrog config add my-server \
           --url=${{ secrets.JFROG_URL }} \
-          --user=${{ secrets.JFROG_USER }} \
-          --apikey=${{ secrets.JFROG_API_KEY }} \
+          --user=${{ secrets.JFROG_USERNAME }} \
+          --apikey=${{ secrets.JFROG_TOKEN }} \
           --interactive=false
 
       # 5️⃣ Upload Artifact to JFrog
