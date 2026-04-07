@@ -49,10 +49,10 @@ jobs:
       # 8️⃣ Tag Docker Image
       - name: Tag Image
         run: |
-          docker tag myapp trialuy8zrn.jfrog.io/docker-repo/myapp:latest
+          docker tag myapp trialuy8zrn.jfrog.io/docker-trial/myapp:latest
           # don't use https:// url while tag or push docker img --aaksh
 
       # 9️⃣ Push Docker Image
       - name: Push Image
         run: |
-          docker push trialuy8zrn.jfrog.io/docker-repo/myapp:latest
+          docker push trialuy8zrn.jfrog.io/docker-trial/myapp:latest
