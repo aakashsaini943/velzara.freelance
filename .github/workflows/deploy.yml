@@ -1,23 +1,57 @@
-name: Deploy Static website
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
       - main
 
-
 jobs:
-  deploy:
+  build-upload-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      # 1️⃣ Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build docker image 
-        run: docker build -tmy-app .
+      # 2️⃣ Verify dist exists
+      - name: Check dist folder
+        run: ls -la dist
 
-      - name: Run Container ( test )  
-        run: docker run -d -p 8080:80 my-app
-       
+      # 3️⃣ Install JFrog CLI
+      - name: Install JFrog CLI
+        run: curl -fL https://getcli.jfrog.io | sh
 
+      # 4️⃣ Configure JFrog
+      - name: Configure JFrog
+        run: |
+          ./jfrog config add my-server \
+          --url=${{ https://trialuy8zrn.jfrog.io/ }} \
+          --user=${{ support@azureescape.in }} \
+          --apikey=${{ cmVmdGtuOjAxOjE4MDcwNzk0MTA6bEtVZzl2ek5KNEhXb2hwWGV4ZGFpRmtwZ1NW }} \
+          --interactive=false
+
+      # 5️⃣ Upload Artifact to JFrog
+      - name: Upload dist to JFrog
+        run: |
+          ./jfrog rt u "dist/*" my-repo/
+
+      # 6️⃣ Build Docker Image
+      - name: Build Docker Image
+        run: docker build -t myapp .
+
+      # 7️⃣ Login to JFrog Docker Registry
+      - name: Docker Login
+        run: |
+          echo ${{ cmVmdGtuOjAxOjE4MDcwNzk0MTA6bEtVZzl2ek5KNEhXb2hwWGV4ZGFpRmtwZ1NW }} | docker login   https://trialuy8zrn.jfrog.io \
+          -u ${{ support@azureescape.in }} --password-stdin
+
+      # 8️⃣ Tag Docker Image
+      - name: Tag Image
+        run: |
+          docker tag myapp https://trialuy8zrn.jfrog.io/docker-repo/myapp:latest
+
+      # 9️⃣ Push Docker Image
+      - name: Push Image
+        run: |
+          docker push  https://trialuy8zrn.jfrog.io/docker-repo/myapp:latest
