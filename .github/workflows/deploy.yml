@@ -34,9 +34,7 @@ jobs:
       # 5️⃣ Upload Artifact to JFrog
       - name: Upload dist to JFrog
         run: |
-          - name: Upload dist to JFrog
-  run: |
-    ./jfrog rt u "dist/*" docker-trial/ --server-id=my-server
+         ./jfrog rt u "dist/*" docker-trial/ --server-id=my-server
 
       # 6️⃣ Build Docker Image
       - name: Build Docker Image
