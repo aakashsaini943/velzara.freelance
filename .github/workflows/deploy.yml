@@ -56,3 +56,12 @@ jobs:
       - name: Push Image
         run: |
           docker push trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+
+      # pull Docker Image
+      - name: Deploy Locally (Versioned)
+        run: |
+          docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+
+          VERSION=$(date +%s)
+
+          docker run -d -p 8080:80 --name myapp_v-$VERSION trialuy8zrn.jfrog.io/docker-trial/myapp:latest 
