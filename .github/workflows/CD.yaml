@@ -31,3 +31,6 @@ jobs:
           docker run -d -p 8080:80 \
           --name myapp_v-$VERSION \
           trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+
+
+          # ----final-----
