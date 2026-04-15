@@ -10,20 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code (good practice even if not used)
+      # 1. Checkout code
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Configure JFrog
-      - name: Configure JFrog
+      # 2. Login to JFrog Docker Registry
+      - name: Login to JFrog Docker
         run: |
-          ./jfrog config add my-server \
-          --url=${{ secrets.JFROG_URL }} \
-          --user=${{ secrets.JFROG_USERNAME }} \
-          --apikey=${{ secrets.JFROG_TOKEN }} \
-          --interactive=false    
+          echo ${{ secrets.JFROG_TOKEN }} | docker login trialuy8zrn.jfrog.io \
+          -u ${{ secrets.JFROG_USERNAME }} \
+          --password-stdin
 
-      # Pull Docker Image
+      # 3. Pull and Run Container
       - name: Deploy Locally (Versioned)
         run: |
           docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
