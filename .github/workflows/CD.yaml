@@ -21,13 +21,22 @@ jobs:
           -u ${{ secrets.JFROG_USERNAME }} \
           --password-stdin
 
-      # 3. Pull and Run Container
-      - name: Deploy Locally (Versioned)
-        run: |
-          docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+      # 3. Pull and Run Container | stop old container 
+      - name: Clean old containers
+  run: |
+    docker stop $(docker ps -aq) || true
+    docker rm $(docker ps -aq) || true
 
-          VERSION=$(date +%s)
+     - name: Deploy with dynamic port
+  run: |
+    docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
 
-          docker run -d -p 8080:80 \
-          --name myapp_v-$VERSION \
-          trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+    VERSION=$(date +%s)
+
+    docker run -d -P \
+    --name myapp_v-$VERSION \
+    trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+
+    PORT=$(docker port myapp_v-$VERSION 80 | cut -d: -f2)
+
+    echo "🚀 Running on port: $PORT"
