@@ -32,5 +32,16 @@ jobs:
           --name myapp_v-$VERSION \
           trialuy8zrn.jfrog.io/docker-trial/myapp:latest
 
+      
+      - name: Install ngrok
+        run: |
+         sudo apt update
+         sudo apt install unzip -y
+         wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip
+         unzip ngrok-v3-stable-linux-amd64.zip
 
-          # ----final-----
+      - name: Run ngrok
+        run: |
+         ./ngrok http 8080 > /dev/null &
+         sleep 5
+         curl http://localhost:4040/api/tunnels
