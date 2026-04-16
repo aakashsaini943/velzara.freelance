@@ -15,11 +15,7 @@ jobs:
         run: |
           docker login trialuy8zrn.jfrog.io -u ${{ secrets.JFROG_USERNAME }} -p ${{ secrets.JFROG_TOKEN }}
 
-      # Stop old container (if exists)
-      - name: Stop old container
-        run: |
-          docker stop myapp || true
-          docker rm myapp || true
+    
 
       # Pull latest image
       - name: Pull Image
