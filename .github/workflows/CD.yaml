@@ -1,43 +1,34 @@
 name: CD - Deploy 🚀
 
 on:
-  workflow_run:
-    workflows: ["CI - Build & Push 🚀"]
-    types:
-      - completed
-
-env:
-  REGISTRY: trialuy8zrn.jfrog.io/docker-trial
-  IMAGE_NAME: myapp
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
-      # Login
+      # Login to JFrog
       - name: Docker Login
         run: |
-          echo ${{ secrets.JFROG_TOKEN }} | docker login trialuy8zrn.jfrog.io \
-          -u ${{ secrets.JFROG_USERNAME }} --password-stdin
+          docker login trialuy8zrn.jfrog.io -u ${{ secrets.JFROG_USERNAME }} -p ${{ secrets.JFROG_TOKEN }}
 
-      # Deploy latest
-      - name: Deploy Container 🚀
+      # Stop old container (if exists)
+      - name: Stop old container
         run: |
-          VERSION=${{ github.sha }}
+          docker stop myapp || true
+          docker rm myapp || true
 
-          IMAGE=$REGISTRY/$IMAGE_NAME:latest
+      # Pull latest image
+      - name: Pull Image
+        run: |
+          docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
 
-          echo "Deploying $IMAGE"
-
-          docker pull $IMAGE
-
-          docker run -d -p 0:80 \
-          --name myapp_$RANDOM \
-          $IMAGE
-
-      # # Cleanup old containers (keep last 3)
-      # - name: Cleanup 🧹
-      #   run: |
-      #     docker ps -a --filter "name=myapp_" --format "{{.Names}}" \
-      #     | sort | head -n -3 | xargs -r docker rm -f
+      # Run container
+      - name: Run Container 🚀
+        run: |
+          docker run -d -p 8080:80 \
+          --name myapp \
+          trialuy8zrn.jfrog.io/docker-trial/myapp:latest
