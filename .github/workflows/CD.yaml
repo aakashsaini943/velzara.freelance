@@ -23,8 +23,16 @@ jobs:
           docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
 
       # Run container
-      - name: Run Container 🚀
+      - name: Deploy Container 🚀
         run: |
-          docker run -d -p 8080:80 `
-          --name myapp `
-          trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+         VERSION=$(Get-Date -Format "HHmmss")
+
+         IMAGE="trialuy8zrn.jfrog.io/docker-trial/myapp:latest"
+
+         echo "Deploying version: $VERSION"
+
+         docker pull $IMAGE
+
+         docker run -d -p 0:80 `
+         --name myapp_$VERSION `
+         $IMAGE
