@@ -1,40 +1,40 @@
-name: CI/CD Pipeline
+# name: CI/CD Pipeline
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      # 1. Checkout code
-      - name: Checkout Code
-        uses: actions/checkout@v4
+#     steps:
+#       # 1. Checkout code
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
 
-      # 2. Login to JFrog Docker Registry
-      - name: Login to JFrog Docker
-        run: |
-          echo ${{ secrets.JFROG_TOKEN }} | docker login trialuy8zrn.jfrog.io \
-          -u ${{ secrets.JFROG_USERNAME }} \
-          --password-stdin
+#       # 2. Login to JFrog Docker Registry
+#       - name: Login to JFrog Docker
+#         run: |
+#           echo ${{ secrets.JFROG_TOKEN }} | docker login trialuy8zrn.jfrog.io \
+#           -u ${{ secrets.JFROG_USERNAME }} \
+#           --password-stdin
 
     
-      - name: Deploy Container (Dynamic Version 🚀)
-        run: |
-           VERSION=${{ github.sha }}
+#       - name: Deploy Container (Dynamic Version 🚀)
+#         run: |
+#            VERSION=${{ github.sha }}
 
-           IMAGE=$REGISTRY/$IMAGE_NAME:$VERSION
+#            IMAGE=$REGISTRY/$IMAGE_NAME:$VERSION
 
-           echo "Deploying $IMAGE"
+#            echo "Deploying $IMAGE"
 
-           docker pull $IMAGE
+#            docker pull $IMAGE
 
-           docker run -d -p 0:80 \
-           --name myapp_$VERSION \
-           $IMAGE
+#            docker run -d -p 0:80 \
+#            --name myapp_$VERSION \
+#            $IMAGE
      
 
       

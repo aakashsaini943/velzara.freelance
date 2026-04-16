@@ -1,75 +1,134 @@
-name: CI/CD Pipeline
+# name: CI/CD Pipeline
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build-upload-deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       #  Checkout Code
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
+
+#       #  Verify dist exists
+#       - name: Check dist folder
+#         run: ls -la dist
+
+#       #  Install JFrog CLI
+#       - name: Install JFrog CLI
+#         run: curl -fL https://getcli.jfrog.io | sh
+
+#       #  Configure JFrog
+#       - name: Configure JFrog
+#         run: |
+#           ./jfrog config add my-server \
+#           --url=${{ secrets.JFROG_URL }} \
+#           --user=${{ secrets.JFROG_USERNAME }} \
+#           --apikey=${{ secrets.JFROG_TOKEN }} \
+#           --interactive=false
+
+#       # #  Upload Artifact to JFrog
+#       # - name: Upload dist to JFrog
+#       #   run: |
+#       #    ./jfrog rt u "dist/*" docker-trial/ --server-id=my-server
+
+#       #  Build Docker Image
+#       - name: Build Docker Image
+#         run: docker build -t myapp .
+
+#       #  Login to JFrog Docker Registry
+#       - name: Docker Login
+#         run: |
+#           echo ${{ secrets.JFROG_TOKEN }} | docker login https://trialuy8zrn.jfrog.io \
+#           -u ${{ secrets.JFROG_USERNAME }} --password-stdin
+
+#       #  Tag Docker Image
+#       # - name: Tag Image
+#       #   run: |
+#       #     docker tag myapp trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+#       #     # don't use https:// url while tag or push docker img --aaksh
+#       - name: Tag Image
+#         run: |
+#           docker tag myapp $REGISTRY/$IMAGE_NAME:${{ github.sha }}
+#           docker tag myapp $REGISTRY/$IMAGE_NAME:latest
+
+#       # Push Docker Image
+#       # - name: Push Image
+#       #   run: |
+#       #     docker push trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+#       - name: Push Image
+#         run: |
+#           docker push $REGISTRY/$IMAGE_NAME:${{ github.sha }}
+#           docker push $REGISTRY/$IMAGE_NAME:latest
+
+#       # # pull Docker Image
+#       # - name: Deploy Locally (Versioned)
+#       #   run: |
+#       #     docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+
+#       #     VERSION=$(date +%s)
+
+#       #     docker run -d -p 8080:80 --name myapp_v-$VERSION trialuy8zrn.jfrog.io/docker-trial/myapp:latest 
+
+
+name: CI/CD Pipeline 🚀
 
 on:
   push:
     branches:
       - main
 
+env:
+  REGISTRY: trialuy8zrn.jfrog.io/docker-trial
+  IMAGE_NAME: myapp
+
 jobs:
   build-upload-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      #  Checkout Code
+
+      # Checkout
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      #  Verify dist exists
-      - name: Check dist folder
-        run: ls -la dist
-
-      #  Install JFrog CLI
-      - name: Install JFrog CLI
-        run: curl -fL https://getcli.jfrog.io | sh
-
-      #  Configure JFrog
-      - name: Configure JFrog
-        run: |
-          ./jfrog config add my-server \
-          --url=${{ secrets.JFROG_URL }} \
-          --user=${{ secrets.JFROG_USERNAME }} \
-          --apikey=${{ secrets.JFROG_TOKEN }} \
-          --interactive=false
-
-      # #  Upload Artifact to JFrog
-      # - name: Upload dist to JFrog
-      #   run: |
-      #    ./jfrog rt u "dist/*" docker-trial/ --server-id=my-server
-
-      #  Build Docker Image
+      # Build
       - name: Build Docker Image
         run: docker build -t myapp .
 
-      #  Login to JFrog Docker Registry
+      # Login
       - name: Docker Login
         run: |
-          echo ${{ secrets.JFROG_TOKEN }} | docker login https://trialuy8zrn.jfrog.io \
+          echo ${{ secrets.JFROG_TOKEN }} | docker login trialuy8zrn.jfrog.io \
           -u ${{ secrets.JFROG_USERNAME }} --password-stdin
 
-      #  Tag Docker Image
-      # - name: Tag Image
-      #   run: |
-      #     docker tag myapp trialuy8zrn.jfrog.io/docker-trial/myapp:latest
-      #     # don't use https:// url while tag or push docker img --aaksh
+      # Tag
       - name: Tag Image
         run: |
           docker tag myapp $REGISTRY/$IMAGE_NAME:${{ github.sha }}
           docker tag myapp $REGISTRY/$IMAGE_NAME:latest
 
-      # Push Docker Image
-      # - name: Push Image
-      #   run: |
-      #     docker push trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+      # Push
       - name: Push Image
         run: |
           docker push $REGISTRY/$IMAGE_NAME:${{ github.sha }}
           docker push $REGISTRY/$IMAGE_NAME:latest
 
-      # # pull Docker Image
-      # - name: Deploy Locally (Versioned)
-      #   run: |
-      #     docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+      # Deploy ✅
+      - name: Deploy Container 🚀
+        run: |
+          VERSION=${{ github.sha }}
 
-      #     VERSION=$(date +%s)
+          IMAGE=$REGISTRY/$IMAGE_NAME:$VERSION
 
-      #     docker run -d -p 8080:80 --name myapp_v-$VERSION trialuy8zrn.jfrog.io/docker-trial/myapp:latest 
+          echo "Deploying $IMAGE"
+
+          docker pull $IMAGE
+
+          docker run -d -p 0:80 \
+          --name myapp_$VERSION \
+          $IMAGE
