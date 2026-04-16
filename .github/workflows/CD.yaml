@@ -21,27 +21,18 @@ jobs:
           -u ${{ secrets.JFROG_USERNAME }} \
           --password-stdin
 
-      # 3. Pull and Run Container
-      - name: Deploy Locally (Versioned)
+    
+      # 6. Deploy (Auto Restart Container)
+      - name: Deploy Container 🔥
         run: |
-          docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+          docker stop myapp || true
+          docker rm myapp || true
 
-          VERSION=$(date +%s)
+          docker pull $REGISTRY/$IMAGE_NAME:latest
 
           docker run -d -p 8080:80 \
-          --name myapp_v-$VERSION \
-          trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+          --name myapp \
+          $REGISTRY/$IMAGE_NAME:latest
 
       
-      - name: Install ngrok
-        run: |
-         sudo apt update
-         sudo apt install unzip -y
-         wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip
-         unzip ngrok-v3-stable-linux-amd64.zip
-
-      - name: Run ngrok
-        run: |
-         ./ngrok http 8080 > /dev/null &
-         sleep 5
-         curl http://localhost:4040/api/tunnels
+      
