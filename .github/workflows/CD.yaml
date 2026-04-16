@@ -24,16 +24,17 @@ jobs:
     
       - name: Deploy Container (Dynamic Version 🚀)
         run: |
-          VERSION=${{ github.sha }}
+           VERSION=${{ github.sha }}
 
-          docker pull $REGISTRY/$IMAGE_NAME:$VERSION || docker pull $REGISTRY/$IMAGE_NAME:latest
+           IMAGE=$REGISTRY/$IMAGE_NAME:$VERSION
 
-          docker run -d -p 0:80 \
-          --name myapp_$VERSION \
-          $REGISTRY/$IMAGE_NAME:$VERSION || \
-          $REGISTRY/$IMAGE_NAME:latest
+           echo "Deploying $IMAGE"
 
-          echo "Deployed version: $VERSION"
+           docker pull $IMAGE
+
+           docker run -d -p 0:80 \
+           --name myapp_$VERSION \
+           $IMAGE
      
 
       
