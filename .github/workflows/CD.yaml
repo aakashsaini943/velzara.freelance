@@ -24,15 +24,15 @@ jobs:
 
       # Run container
       - name: Deploy Container 🚀
-        run: |
-         VERSION=$(Get-Date -Format "HHmmss")
+  run: |
+    $VERSION = Get-Date -Format "HHmmss"
 
-         IMAGE="trialuy8zrn.jfrog.io/docker-trial/myapp:latest"
+    $IMAGE = "trialuy8zrn.jfrog.io/docker-trial/myapp:latest"
 
-         echo "Deploying version: $VERSION"
+    Write-Output "Deploying version: $VERSION"
 
-         docker pull $IMAGE
+    docker pull $IMAGE
 
-         docker run -d -p 0:80 `
-         --name myapp_$VERSION `
-         $IMAGE
+    docker run -d -p 0:80 `
+    --name myapp_$VERSION `
+    $IMAGE
