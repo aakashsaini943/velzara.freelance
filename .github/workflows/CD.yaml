@@ -22,17 +22,19 @@ jobs:
           --password-stdin
 
     
-      # 6. Deploy (Auto Restart Container)
-      - name: Deploy Container 🔥
+      - name: Deploy Container (Dynamic Version 🚀)
         run: |
-          docker stop myapp || true
-          docker rm myapp || true
+          VERSION=${{ github.sha }}
 
-          docker pull $REGISTRY/$IMAGE_NAME:latest
+          docker pull $REGISTRY/$IMAGE_NAME:$VERSION || docker pull $REGISTRY/$IMAGE_NAME:latest
 
-          docker run -d -p 8080:80 \
-          --name myapp \
+          docker run -d -p 0:80 \
+          --name myapp_$VERSION \
+          $REGISTRY/$IMAGE_NAME:$VERSION || \
           $REGISTRY/$IMAGE_NAME:latest
+
+          echo "Deployed version: $VERSION"
+     
 
       
       
