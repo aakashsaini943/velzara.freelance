@@ -11,7 +11,7 @@ env:
 
 jobs:
   build-and-push:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       # Checkout
@@ -26,8 +26,7 @@ jobs:
       # Login to JFrog
       - name: Docker Login
         run: |
-          echo ${{ secrets.JFROG_TOKEN }} | docker login trialuy8zrn.jfrog.io \
-          -u ${{ secrets.JFROG_USERNAME }} --password-stdin
+          echo ${{ secrets.JFROG_TOKEN }} | docker login trialuy8zrn.jfrog.io -u ${{ secrets.JFROG_USERNAME }} --password-stdin
 
       # Tag Image
       - name: Tag Image
