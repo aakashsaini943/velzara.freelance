@@ -36,7 +36,6 @@
 #           $IMAGE   
 
 
-
 name: CD - Deploy 🚀
 
 on:
@@ -52,23 +51,41 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    # Login to JFrog
-      - name: Docker Login
-        run: |
-          docker login trialuy8zrn.jfrog.io -u ${{ secrets.JFROG_USERNAME }} -p ${{ secrets.JFROG_TOKEN }}
+    # 🔹 Login
+    - name: Docker Login
+      run: |
+        docker login trialuy8zrn.jfrog.io `
+        -u ${{ secrets.JFROG_USERNAME }} `
+        -p ${{ secrets.JFROG_TOKEN }}
 
-      - name: Pull Image
-        run: |
-          docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
-      - name: Stop Old Container
-        run: |
-          $container = docker ps -a -q -f name=myapp
-          if ($container) {
-            docker stop myapp
-            docker rm myapp
-          }
+    # 🔹 Pull latest image
+    - name: Pull Image
+      run: |
+        docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
 
-      - name: Run Container
-        run: |
-          docker run -d -p 8080:80 --name myapp `
-          trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+    # 🔹 Generate Version (dynamic container name)
+    - name: Generate Version
+      id: version
+      run: |
+        $VERSION = Get-Date -Format "yyyyMMddHHmmss"
+        echo "VERSION=$VERSION" >> $env:GITHUB_ENV
+
+    # 🔹 Stop ALL old containers
+    - name: Cleanup Old Containers
+      run: |
+        $containers = docker ps -a -q -f "name=myapp"
+        if ($containers) {
+          docker rm -f $containers
+        }
+
+    # 🔹 Run new container with version name
+    - name: Run Container
+      run: |
+        docker run -d -p 8080:80 `
+        --name myapp_${{ env.VERSION }} `
+        trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+
+    # 🔹 Show running containers
+    - name: Verify
+      run: |
+        docker ps
