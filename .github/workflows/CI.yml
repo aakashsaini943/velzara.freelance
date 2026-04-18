@@ -50,6 +50,10 @@ on:
       - main
   workflow_dispatch:
 
+
+permissions:
+  contents: write 
+
 env:
   REGISTRY: trialuy8zrn.jfrog.io/docker-trial
   IMAGE_NAME: myapp
