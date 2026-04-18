@@ -1,36 +1,75 @@
+# name: CD - Deploy 🚀
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: self-hosted
+
+#     steps:
+#       # Login to JFrog
+#       - name: Docker Login
+#         run: |
+#           docker login trialuy8zrn.jfrog.io -u ${{ secrets.JFROG_USERNAME }} -p ${{ secrets.JFROG_TOKEN }}
+
+#       # Pull latest image
+#       - name: Pull Image
+#         run: |
+#           docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+
+#       # Run container
+#       - name: Deploy Container 🚀
+#         run: |
+#           $VERSION = Get-Date -Format "HHmmss"
+
+#           $IMAGE = "trialuy8zrn.jfrog.io/docker-trial/myapp:latest"
+
+#           Write-Output "Deploying version: $VERSION"
+
+#           docker pull $IMAGE
+
+#           docker run -d -p 0:80 `
+#           --name myapp_$VERSION `
+#           $IMAGE   
+
+
+
 name: CD - Deploy 🚀
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["CI - Build & Push 🚀"]
+    types:
+      - completed
+  workflow_dispatch:
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: self-hosted
 
     steps:
-      # Login to JFrog
       - name: Docker Login
         run: |
-          docker login trialuy8zrn.jfrog.io -u ${{ secrets.JFROG_USERNAME }} -p ${{ secrets.JFROG_TOKEN }}
+          docker login trialuy8zrn.jfrog.io \
+          -u ${{ secrets.JFROG_USERNAME }} \
+          -p ${{ secrets.JFROG_TOKEN }}
 
-      # Pull latest image
       - name: Pull Image
         run: |
           docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
 
-      # Run container
-      - name: Deploy Container 🚀
+      # 🔥 Stop old container
+      - name: Stop Old Container
         run: |
-          $VERSION = Get-Date -Format "HHmmss"
+          docker stop myapp || true
+          docker rm myapp || true
 
-          $IMAGE = "trialuy8zrn.jfrog.io/docker-trial/myapp:latest"
-
-          Write-Output "Deploying version: $VERSION"
-
-          docker pull $IMAGE
-
-          docker run -d -p 0:80 `
-          --name myapp_$VERSION `
-          $IMAGE
+      # 🚀 Run new container
+      - name: Run Container
+        run: |
+          docker run -d -p 8080:80 --name myapp \
+          trialuy8zrn.jfrog.io/docker-trial/myapp:latest
