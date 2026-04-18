@@ -52,11 +52,10 @@ jobs:
     runs-on: self-hosted
 
     steps:
+    # Login to JFrog
       - name: Docker Login
         run: |
-          docker login trialuy8zrn.jfrog.io \
-          -u ${{ secrets.JFROG_USERNAME }} \
-          -p ${{ secrets.JFROG_TOKEN }}
+          docker login trialuy8zrn.jfrog.io -u ${{ secrets.JFROG_USERNAME }} -p ${{ secrets.JFROG_TOKEN }}
 
       - name: Pull Image
         run: |
