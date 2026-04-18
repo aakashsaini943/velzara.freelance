@@ -42,8 +42,6 @@
 
 
 
-
-
 name: CI - Build & Push 🚀
 
 on:
@@ -61,28 +59,57 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 🔹 Checkout full history (IMPORTANT for tags)
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      # 🔹 Generate Incremental Version (v1, v2, v3...)
       - name: Generate Version
+        id: version
         run: |
-          VERSION=v$(date +'%Y.%m.%d-%H%M')
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          git fetch --tags
 
+          TAG=$(git tag --list "v*" | sort -V | tail -n 1)
+
+          if [ -z "$TAG" ]; then
+            VERSION="v1"
+          else
+            NUM=$(echo $TAG | sed 's/v//')
+            VERSION="v$((NUM + 1))"
+          fi
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Generated version: $VERSION"
+
+      # 🔹 Build Image
       - name: Build Image
         run: docker build -t myapp .
 
+      # 🔹 Login to JFrog
       - name: Docker Login
         run: |
           echo ${{ secrets.JFROG_TOKEN }} | docker login trialuy8zrn.jfrog.io \
           -u ${{ secrets.JFROG_USERNAME }} --password-stdin
 
+      # 🔹 Tag Image (version + latest)
       - name: Tag Image
         run: |
           docker tag myapp $REGISTRY/$IMAGE_NAME:${{ env.VERSION }}
           docker tag myapp $REGISTRY/$IMAGE_NAME:latest
 
+      # 🔹 Push Image
       - name: Push Image
         run: |
           docker push $REGISTRY/$IMAGE_NAME:${{ env.VERSION }}
           docker push $REGISTRY/$IMAGE_NAME:latest
+
+      # 🔹 Push Git Tag (IMPORTANT)
+      - name: Push Git Tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git tag ${{ env.VERSION }}
+          git push origin ${{ env.VERSION }}
