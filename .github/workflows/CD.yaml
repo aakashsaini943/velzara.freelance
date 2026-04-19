@@ -1,91 +1,46 @@
-# name: CD - Deploy 🚀
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   deploy:
-#     runs-on: self-hosted
-
-#     steps:
-#       # Login to JFrog
-#       - name: Docker Login
-#         run: |
-#           docker login trialuy8zrn.jfrog.io -u ${{ secrets.JFROG_USERNAME }} -p ${{ secrets.JFROG_TOKEN }}
-
-#       # Pull latest image
-#       - name: Pull Image
-#         run: |
-#           docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
-
-#       # Run container
-#       - name: Deploy Container 🚀
-#         run: |
-#           $VERSION = Get-Date -Format "HHmmss"
-
-#           $IMAGE = "trialuy8zrn.jfrog.io/docker-trial/myapp:latest"
-
-#           Write-Output "Deploying version: $VERSION"
-
-#           docker pull $IMAGE
-
-#           docker run -d -p 0:80 `
-#           --name myapp_$VERSION `
-#           $IMAGE   
-
-
 name: CD - Deploy 🚀
 
 on:
-  workflow_run:
-    workflows: ["CI - Build & Push 🚀"]
-    types:
-      - completed
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: self-hosted
+    runs-on: [self-hosted, Windows, X64]
 
     steps:
-    # 🔹 Login
-    - name: Docker Login
-      run: |
-        docker login trialuy8zrn.jfrog.io `
-        -u ${{ secrets.JFROG_USERNAME }} `
-        -p ${{ secrets.JFROG_TOKEN }}
+      # 1️⃣ Checkout (optional but good practice)
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    # 🔹 Pull latest image
-    - name: Pull Image
-      run: |
-        docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+      # 2️⃣ Verify Docker access (DEBUG step 🔥)
+      - name: Check Docker
+        run: docker ps
 
-    # 🔹 Generate Version (dynamic container name)
-    - name: Generate Version
-      id: version
-      run: |
-        $VERSION = Get-Date -Format "yyyyMMddHHmmss"
-        echo "VERSION=$VERSION" >> $env:GITHUB_ENV
+      # 3️⃣ Login to JFrog
+      - name: Docker Login
+        run: |
+          docker login trialuy8zrn.jfrog.io `
+          -u ${{ secrets.JFROG_USERNAME }} `
+          -p ${{ secrets.JFROG_TOKEN }}
 
-    # 🔹 Stop ALL old containers
-    - name: Cleanup Old Containers
-      run: |
-        $containers = docker ps -a -q -f "name=myapp"
-        if ($containers) {
-          docker rm -f $containers
-        }
+      # 4️⃣ Pull latest image
+      - name: Pull Image
+        run: docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
 
-    # 🔹 Run new container with version name
-    - name: Run Container
-      run: |
-        docker run -d -p 8080:80 `
-        --name myapp_${{ env.VERSION }} `
-        trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+      # 5️⃣ Stop old container (safe)
+      - name: Stop Old Container
+        run: |
+          docker stop myapp-container || echo "No container running"
+          docker rm myapp-container || echo "No container to remove"
 
-    # 🔹 Show running containers
-    - name: Verify
-      run: |
-        docker ps
+      # 6️⃣ Run new container
+      - name: Run Container
+        run: |
+          docker run -d -p 3000:3000 --name myapp-container trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+
+      # 7️⃣ Verify deployment
+      - name: Verify
+        run: docker ps
