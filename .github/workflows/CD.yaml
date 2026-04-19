@@ -44,7 +44,7 @@ jobs:
       # 6️⃣ Run new container
       - name: Run Container
         run: |
-          docker run -d -p 3000:3000 --name myapp-container trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+          docker run -d -p 8000:80 --name myapp-container trialuy8zrn.jfrog.io/docker-trial/myapp:latest
 
       # 7️⃣ Verify deployment
       - name: Verify
