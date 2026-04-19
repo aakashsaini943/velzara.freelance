@@ -30,11 +30,16 @@ jobs:
       - name: Pull Image
         run: docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
 
-      # 5️⃣ Stop old container (safe)
       - name: Stop Old Container
+        shell: powershell
         run: |
-          docker stop myapp-container || echo "No container running"
-          docker rm myapp-container || echo "No container to remove"
+           $container = docker ps -a -q -f name=myapp-container
+           if ($container) {
+             docker stop myapp-container
+             docker rm myapp-container
+           } else {
+             Write-Output "No container found"
+           }
 
       # 6️⃣ Run new container
       - name: Run Container
