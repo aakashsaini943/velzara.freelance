@@ -1091,3 +1091,5 @@ footer {
 @media (max-width: 600px) {
   .portfolio-masonry { grid-template-columns: 1fr; }
 }
+
+/* '''''''''''''''''''''''''''''''''''''' */
