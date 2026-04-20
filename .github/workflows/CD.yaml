@@ -2,20 +2,21 @@ name: CD - Deploy 🚀
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+    inputs:
+      version:
+        description: "Image version (v1, v2...)"
+        required: true
 
 jobs:
   deploy:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
-      # 1️⃣ Checkout (optional but good practice)
+      # 1️⃣ Checkout
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # 2️⃣ Verify Docker access (DEBUG step 🔥)
+      # 2️⃣ Check Docker
       - name: Check Docker
         run: docker ps
 
@@ -26,26 +27,29 @@ jobs:
           -u ${{ secrets.JFROG_USERNAME }} `
           -p ${{ secrets.JFROG_TOKEN }}
 
-      # 4️⃣ Pull latest image
+      # 4️⃣ Pull Selected Version ✅
       - name: Pull Image
-        run: docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+        run: |
+          docker pull trialuy8zrn.jfrog.io/docker-trial/myapp:${{ github.event.inputs.version }}
 
+      # 5️⃣ Stop Old Container
       - name: Stop Old Container
         shell: powershell
         run: |
-           $container = docker ps -a -q -f name=myapp-container
-           if ($container) {
-             docker stop myapp-container
-             docker rm myapp-container
-           } else {
-             Write-Output "No container found"
-           }
+          $container = docker ps -a -q -f name=myapp-container
+          if ($container) {
+            docker stop myapp-container
+            docker rm myapp-container
+          } else {
+            Write-Output "No container found"
+          }
 
-      # 6️⃣ Run new container
+      # 6️⃣ Run NEW VERSION ✅
       - name: Run Container
         run: |
-          docker run -d -p 8000:80 --name myapp-container trialuy8zrn.jfrog.io/docker-trial/myapp:latest
+          docker run -d -p 8000:80 --name myapp-container `
+          trialuy8zrn.jfrog.io/docker-trial/myapp:${{ github.event.inputs.version }}
 
-      # 7️⃣ Verify deployment
+      # 7️⃣ Verify
       - name: Verify
         run: docker ps
